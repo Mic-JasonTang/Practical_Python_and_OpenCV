@@ -22,3 +22,5 @@ args = ap.parse_args("-i asd -b bbbbbbb -c ccccccc".split(), namespace=a)
 print(type(args))
 print(vars(args))
 print(a.image, a.bb)
+# print help
+print(ap.print_help())
