@@ -22,5 +22,5 @@ print("channels: {} pixels".format(image.shape[2]))
 
 cv2.imshow("image", image)
 cv2.waitKey(0)
-cv2.imwrite("newcat.png", image)
+cv2.imwrite("./images/newcat.png", image)
 
