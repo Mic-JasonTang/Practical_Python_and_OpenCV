@@ -13,6 +13,7 @@ class A:
 	pass
 
 a = A()
+# API: https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required = True, help = "Path to the image")
 ap.add_argument("-b", "--bb", help = "bbb")
