@@ -2,7 +2,7 @@
 # @Author:   MR_Radish
 # @Date:     2018-08-05 18:02:31
 # @E-mail:   ty_2016@foxmail.com
-# @FileName: otsu_adn_riddler.py
+# @FileName: otsu_and_riddler.py
 # @TODO: Otsu’s method大金法进行二值化
 # 使用mahotas包里面的otsu，更pythonic
 # Otsu’s method assumes there are two peaks in the grayscale
