@@ -2,7 +2,7 @@
 # @Author:   MR_Radish
 # @Date:     2018-08-05 18:02:31
 # @E-mail:   ty_2016@foxmail.com
-# @FileName: otsu_adn_riddler.py
+# @FileName: otsu_and_riddler.py
 # @TODO: Otsu’s method大金法进行二值化
 # 使用mahotas包里面的otsu，更pythonic
 # Otsu’s method assumes there are two peaks in the grayscale
@@ -38,6 +38,7 @@ thresh = cv2.bitwise_not(thresh)
 # 上面四局代码相当于将>T的变成0（黑），<T变成255(白)
 cv2.imshow("Otsu", thresh)
 
+# 最大类间方差法
 T = mahotas.thresholding.rc(blurred)
 print("Riddler-Calvard: {}".format(T))
 thresh = image.copy()
