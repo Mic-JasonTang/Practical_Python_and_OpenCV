@@ -38,6 +38,7 @@ thresh = cv2.bitwise_not(thresh)
 # 上面四局代码相当于将>T的变成0（黑），<T变成255(白)
 cv2.imshow("Otsu", thresh)
 
+# 最大类间方差法
 T = mahotas.thresholding.rc(blurred)
 print("Riddler-Calvard: {}".format(T))
 thresh = image.copy()
