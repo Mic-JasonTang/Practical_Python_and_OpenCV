@@ -50,9 +50,9 @@ cv2.imshow("Edged", edged)
 								 cv2.CHAIN_APPROX_SIMPLE)
 
 print("hierarchy:{}".format(hierarchy))
-cv2.imshow("After detection", after_detection)
-print("I count {} coins in this image, the list is :{}".format(len(cnts), cnts))
-
+# cv2.imshow("After detection", after_detection)
+# 每个元素是三维矩阵
+print("I count {} coins in this image, the cnts'shape is :{}".format(len(cnts), np.shape(cnts[0])))
 # In order not to draw on our original image,
 # we make a copy of the original image
 coins = image.copy()
@@ -75,6 +75,38 @@ coins = image.copy()
 # The last argument is the thickness of the line we
 # are drawing. We’ll draw the contour with a thickness of
 # two pixels
-cv2.drawContours(coins, cnts, -1, (0, 255, 0), 2)
-cv2.imshow("Coins", coins)
-cv2.waitKey(0)
+for i in range(9):
+	cv2.drawContours(coins, cnts, i, (0, 255, 0), 2)
+	cv2.imshow("Coins", coins)
+	cv2.waitKey(0)
+
+# crop each individual coin from the image
+for (i, c) in enumerate(cnts):
+	# This method finds the “enclosing box” that
+	# our contour will fit into, allowing us to crop it from the
+	# image. The function takes a single parameter, a contour,
+	# and then returns a tuple of the x and y position that the
+	# rectangle starts at, followed by the width and height of the
+	# rectangle.
+	(x, y, w, h) = cv2.boundingRect(c)
+	print("x:{}, y:{}, w:{}, h:{}".format(x, y, w, h))
+
+	print("Coin #{}".format(i+1))
+	coin = image[y:y + h, x:x + w]
+	cv2.imshow("Coin", coin)
+
+	mask = np.zeros(image.shape[:2], dtype="uint8")
+	# We pass in a circle variable, the current
+	# contour, and are given the x and y coordinates of the circle,
+	# along with its radius.
+	((centerX, centerY), radius) = cv2.minEnclosingCircle(c)
+	# Using the (x, y) coordinates and the radius, we can draw
+	# a circle on our mask, representing the coin.
+	cv2.circle(mask, (int(centerX), int(centerY)), int(radius), 255, -1)
+	cv2.imshow("Mask", mask)
+	mask = mask[y:y + h, x:x + w]
+	# 	In order to show only the foreground of the coin and ignore the background, we make a call to our trusty bitwise
+	# AND function using the coin image and the mask for the
+	# coin. The coin, with the background removed,
+	cv2.imshow("Masked Coin", cv2.bitwise_and(coin, coin, mask=mask))
+	cv2.waitKey(0)
