@@ -39,7 +39,7 @@ cv2.imshow("Edged", edged)
 #   cv2.RETR_COMP and cv2.RETR_TREE, but hierarchical contours are outside the scope of this book.
 # cv2.CHAIN_APPROX_SIMPLE: this argument is how we want to approximate the
 #   contour.We use cv2.CHAIN_APPROX_SIMPLE to compress
-# horizontal, vertical, and diagonal segments into their endpoints only.
+# horizontal, vertical, and diagonal segments into their endpoints only.仅保存轮廓的拐点信息
 # This saves both computation and memory. If
 # we wanted all the points along the contour, without compression,
 # we can pass in cv2.CHAIN_APPROX_NONE; however,
@@ -49,7 +49,19 @@ cv2.imshow("Edged", edged)
 (after_detection, cnts, hierarchy) = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL,
 								 cv2.CHAIN_APPROX_SIMPLE)
 
-print("hierarchy:{}".format(hierarchy))
+print("hierarchy:\n{}".format(hierarchy))
+# output:
+# 分别表示第i个轮廓的后一个轮廓、前一个轮廓、父轮廓、内嵌轮廓的索引编号，没有则为-1。
+# [[[ 1 -1 -1 -1]
+#   [ 2  0 -1 -1]
+#   [ 3  1 -1 -1]
+#   [ 4  2 -1 -1]
+#   [ 5  3 -1 -1]
+#   [ 6  4 -1 -1]
+#   [ 7  5 -1 -1]
+#   [ 8  6 -1 -1]
+#   [-1  7 -1 -1]]]
+
 # cv2.imshow("After detection", after_detection)
 # 每个元素是三维矩阵
 print("I count {} coins in this image, the cnts'shape is :{}".format(len(cnts), np.shape(cnts[0])))
@@ -79,6 +91,8 @@ for i in range(9):
 	cv2.drawContours(coins, cnts, i, (0, 255, 0), 2)
 	cv2.imshow("Coins", coins)
 	cv2.waitKey(0)
+# -1显示所有边缘
+# cv2.drawContours(coins, cnts, -1, (0, 255, 0), 2)
 
 # crop each individual coin from the image
 for (i, c) in enumerate(cnts):
@@ -88,6 +102,8 @@ for (i, c) in enumerate(cnts):
 	# and then returns a tuple of the x and y position that the
 	# rectangle starts at, followed by the width and height of the
 	# rectangle.
+	print("c.shape:{}".format(np.shape(c)))
+	print(c)
 	(x, y, w, h) = cv2.boundingRect(c)
 	print("x:{}, y:{}, w:{}, h:{}".format(x, y, w, h))
 
@@ -105,7 +121,8 @@ for (i, c) in enumerate(cnts):
 	cv2.circle(mask, (int(centerX), int(centerY)), int(radius), 255, -1)
 	cv2.imshow("Mask", mask)
 	mask = mask[y:y + h, x:x + w]
-	# 	In order to show only the foreground of the coin and ignore the background, we make a call to our trusty bitwise
+	# In order to show only the foreground of the coin and ignore
+	# the background, we make a call to our trusty bitwise
 	# AND function using the coin image and the mask for the
 	# coin. The coin, with the background removed,
 	cv2.imshow("Masked Coin", cv2.bitwise_and(coin, coin, mask=mask))
