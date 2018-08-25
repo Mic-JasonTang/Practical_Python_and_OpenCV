@@ -8,6 +8,7 @@
 import cv2
 
 class FaceDetector:
+	# 官方文档:https://docs.opencv.org/3.0-beta/modules/objdetect/doc/cascade_classification.html
 	def __init__(self, faceCascadePath):
 		# the path to where his cascade classifier lives
 		# This classifier is serialized as an XML file.
