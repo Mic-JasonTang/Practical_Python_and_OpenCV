@@ -35,7 +35,8 @@ else:
 while True:
 	# return false if no frame has been grabbed.
 	(grabbed, frame) = camera.read()
-	# if the frame was not grabbed, then the video is over.
+
+	# if video is available then break if not grabbed frame.
 	if args.get("video") and not grabbed:
 		break
 

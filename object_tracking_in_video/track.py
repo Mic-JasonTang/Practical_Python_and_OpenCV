@@ -29,7 +29,6 @@ while True:
 	# the frame was successfully read from the video file.
 	# The second, frame, is the frame itself.
 	(grabbed, frame) = camera.read()
-	print(frame.shape)
 	# reached the end of the video.
 	if not grabbed:
 		break
@@ -70,7 +69,7 @@ while True:
 	(_, cnts, _) = cv2.findContours(blue.copy(),
 		                            cv2.RETR_EXTERNAL,
 		                            cv2.CHAIN_APPROX_SIMPLE)
-
+	print("I found {} cnts".format(len(cnts)))
 	if len(cnts) > 0:
 		# Need to find the largest contour.
 		# The contours are sorted in reverse order (largest first), using
@@ -81,8 +80,12 @@ while True:
 		# Now has the outline of the iPhone, but she needs to draw a bounding box around it.
 		# Calling cv2.minAreaRect computes the minimum bounding box around the contour.
 		# Then, cv2.boxPoints re-shapes the bounding box to be a list of points.
+		# print("cnt:{}".format(cnt))
 		rect = np.int32(cv2.boxPoints(cv2.minAreaRect(cnt)))
+		print("[rect]:{}".format([rect]))
 		# Draws the bounding box using the cv2.drawContours function.
+		# By specifying a negative value of −1, we are indicating that
+		# we want to draw all of the contours.
 		cv2.drawContours(frame, [rect], -1, (0, 255, 0), 2)
 
 	cv2.imshow("Tracking", frame)
