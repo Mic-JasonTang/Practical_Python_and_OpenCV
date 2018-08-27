@@ -22,7 +22,7 @@ class HOG:
 				cellsPerBlock = (3, 3), transform = False):
 		self.orientations = orientations
 		self.pixelsPerCell = pixelsPerCell
-		self.cellsPreBlock = cellsPerBlock
+		self.cellsPerBlock = cellsPerBlock
 		self.transform = transform
 
 	def describe(self, image):
