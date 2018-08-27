@@ -6,7 +6,8 @@
 # @TODO: HOG descriptor
 
 from skimage import feature
-
+# API: http://scikit-image.org/docs/dev/api/skimage.feature.html#skimage.feature.hog
+# API: http://scikit-image.org/docs/dev/auto_examples/features_detection/plot_hog.html#sphx-glr-auto-examples-features-detection-plot-hog-py
 class HOG:
 	# The first, orientations, defines how many gradient orientations
 	# will be in each histogram (i.e., the number of bins).
