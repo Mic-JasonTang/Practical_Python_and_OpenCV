@@ -28,3 +28,22 @@ ap.add_argument("-i", "--image", required=True,
 ap.add_argument("-m", "--masks", required=True,
 	help="path to the image masks")
 args = vars(ap.parse_args())
+
+imagePaths = sorted(glob.glob(args["image"] + "/*.png"))
+maskPaths = sorted(glob.glob(args["masks"] + "/*.png"))
+
+data = []
+target = []
+
+desc = RGBHistogram([8, 8, 8])
+
+for (imagePath, maskPath) in zip(imagePaths, maskPaths)
+	image = cv2.imread(imagePath)
+	mask = cv2.imread(maskPath)
+	mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+
+	features = desc.describe(image, mask)
+
+	data.append(features)
+	target.append(imagePath.split("_")[-2])
+
