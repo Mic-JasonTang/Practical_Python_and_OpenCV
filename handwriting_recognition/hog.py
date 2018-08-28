@@ -34,5 +34,12 @@ class HOG:
 			pixels_per_cell = self.pixelsPerCell,
 			cells_per_block = self.cellsPerBlock,
 			transform_sqrt = self.transform)
-		# Return the resulting HOG feature vector
+		# Return the resulting HOG feature vector.
+	# out : (n_blocks_row, n_blocks_col, n_cells_row, n_cells_col, n_orient) ndarray
+
+	# 	HOG descriptor for the image. If feature_vector is True, a 1D (flattened) array is returned.
+
+	# 	hog_image : (M, N) ndarray, optional
+
+	# 	A visualisation of the HOG image. Only provided if visualize is True.
 		return hist

@@ -25,10 +25,14 @@ hog = HOG(orientations = 18, pixelsPerCell=(10, 10),
 	cellsPerBlock=(1, 1), transform=True)
 
 image = cv2.imread(args["image"])
+print("image.shape:{}".format(image.shape))
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 edged = cv2.Canny(blurred, 30, 150)
+
+cv2.imshow("Edged", edged)
+
 (_, cnts, _) = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL,
 	cv2.CHAIN_APPROX_SIMPLE)
 
@@ -69,6 +73,7 @@ for (c, _) in cnts:
 		# Computes the HOG feature vector of the thresholded ROI by calling
 		# the describe method of the HOG descriptor.
 		hist = hog.describe(thresh)
+		print("hist.shape:{}".format(hist.shape))
 		# The HOG feature vector is fed into the LinearSVC’s predict
 		# method which classifies which digit the ROI is, based on
 		# the HOG feature vector.
