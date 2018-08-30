@@ -3,7 +3,7 @@
 # @Date:     2018-08-29 18:21:04
 # @E-mail:   ty_2016@foxmail.com
 # @FileName: coverdescriptor.py
-# @TODO:
+# @TODO: extract keypoints and local invariant descriptors from the images
 
 import numpy as np
 import cv2
@@ -25,7 +25,7 @@ class CoverDescriptor:
 		# actual description of the region is the “compute” phase.
 		(kps, descs) = descriptor.detectAndCompute(image, None)
 		# the (x, y) coordinates of the keypoint, contained in the pt attribute.
-		kps = np.float([kp.pt for kp in kps])
+		kps = np.float32([kp.pt for kp in kps])
 
 		return (kps, descs)
 
