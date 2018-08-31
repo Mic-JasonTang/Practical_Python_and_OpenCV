@@ -11,82 +11,83 @@ import glob
 import csv
 import cv2
 
+def imresize(src, height):
+    ratio = src.shape[0] * 1.0/height
+    width = int(src.shape[1] * 1.0/ratio)
+    return cv2.resize(src, (width, height))
+
 ap = argparse.ArgumentParser()
 ap.add_argument("-a", "--imageA", required=True,
 	help="path to the imageA")
 ap.add_argument("-b", "--imageB", required=True,
 	help="path to the imageB")
-ap.add_argument("-s", "--sift", type=int, default=0,
-	help="whether or not SIFT should be used")
+ap.add_argument("-m", "--method", default="sift",
+	help="which method should be used")
+# ap.add_argument("-r", "--resize", default=0,
+# 	help="resize the image to keep the size of two images are same")
 args = vars(ap.parse_args())
 
-useSIFT = args["sift"] > 0
-
-useHamming = args["sift"] == 0
-ratio = 0.75
-minMatches = 40
-
-if useSIFT:
-	minMatches = 50
+ratio = 0.6
 
 distanceMethod = "BruteForce"
 
-if useHamming:
-	distanceMethod += "-Hamming"
+method = args["method"]
+# resize = args["resize"]
 
-if useSIFT:
+print("use {} method".format(method))
+
+if method == "sift":
 	descriptor = cv2.xfeatures2d.SIFT_create()
-else:
+elif method == "brisk":
 	descriptor = cv2.BRISK_create()
+elif method == "surf":
+	descriptor = cv2.xfeatures2d.SURF_create()
+elif method == "orb":
+	descriptor = cv2.ORB_create()
+else:
+	raise ValueError("The {} method is not supported.".format(method))
 
 imageA = cv2.imread(args["imageA"])
-imageA = cv2.resize(imageA, (640, 480))
+print("image.shape:{}".format(imageA.shape))
+imageA = imresize(imageA, 480)
 gray1 = cv2.cvtColor(imageA, cv2.COLOR_BGR2GRAY)
 (kpsA, descsA) = descriptor.detectAndCompute(gray1, None)
 
 gray1 = cv2.drawKeypoints(imageA, kpsA, imageA)
-cv2.imshow(str(gray1.shape), gray1) #拼接显示为gray
+cv2.imshow(str(gray1.shape) + "A", gray1) #拼接显示为gray
 cv2.waitKey(0)
 
 imageB = cv2.imread(args["imageB"])
-imageB = cv2.resize(imageB, (640, 480))
+print("image.shape:{}".format(imageB.shape))
+imageB = imresize(imageB, 480)
 gray2 = cv2.cvtColor(imageB, cv2.COLOR_BGR2GRAY)
 (kpsB, descsB) = descriptor.detectAndCompute(gray2, None)
 
 gray2 = cv2.drawKeypoints(imageB, kpsB, imageB)
-cv2.imshow(str(gray2.shape), gray2)
+cv2.imshow(str(gray2.shape) + "B", gray2)
 cv2.waitKey(0)
 
-
-matcher = cv2.DescriptorMatcher_create(distanceMethod)
-rawMatches = matcher.knnMatch(descsB, descsA, 2)
+if method == "brisk" or method == "orb":
+	matcher = cv2.DescriptorMatcher_create(distanceMethod)
+	rawMatches = matcher.knnMatch(descsB, descsA, 2)
+else:
+	# FLANN 参数设计
+	FLANN_INDEX_KDTREE = 0
+	index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
+	search_params = dict(checks=50)
+	flann = cv2.FlannBasedMatcher(index_params, search_params)
+	rawMatches = flann.knnMatch(descsB, descsA, 2)
 
 matches = []
 
-for m in rawMatches:
-	if not (len(m) == 2 and m[0].distance < m[1].distance * ratio):
-		# matches.append((m[0].trainIdx, m[0].queryIdx))
-		matches.append([m[0]])
-		# rawMatches.remove(m)
+for m, n in rawMatches:
+	if m.distance < n.distance * ratio:
+		matches.append([m])
 
-# kpsA2 = kpsA.copy()
-# kpsB2 = kpsB.copy()
-# kpsA2 = np.float32([kp.pt for kp in kpsA2])
-# kpsB2 = np.float32([kp.pt for kp in kpsB2])
+print("I got {} matches.".format(len(matches)))
+result = cv2.drawMatchesKnn(imageA, kpsA, imageB, kpsB, matches, None)
 
-# if len(matches) > minMatches:
-# 	ptsA = np.float32([kpsA2[i] for (i, _) in matches])
-# 	ptsB = np.float32([kpsB2[j] for (_, j) in matches])
-# 	(matrix, status) = cv2.findHomography(ptsA, ptsB, cv2.RANSAC, 4.0)
-
-# score = float(status.sum()) / status.size
-# print("matrix:{}".format(matrix))
-# if score < 0:
-	# print("match failed!")
-# else:
-result = cv2.drawMatchesKnn(imageA, kpsA, imageB, kpsB, matches, None, flags=2)
-
-cv2.imshow("Result", result)
+cv2.imshow(str(method), result)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
