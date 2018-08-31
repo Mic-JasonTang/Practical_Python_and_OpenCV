@@ -40,19 +40,21 @@ else:
 	descriptor = cv2.BRISK_create()
 
 imageA = cv2.imread(args["imageA"])
+imageA = cv2.resize(imageA, (640, 480))
 gray1 = cv2.cvtColor(imageA, cv2.COLOR_BGR2GRAY)
 (kpsA, descsA) = descriptor.detectAndCompute(gray1, None)
 
 gray1 = cv2.drawKeypoints(imageA, kpsA, imageA)
-cv2.imshow("gray1", gray1) #拼接显示为gray
+cv2.imshow(str(gray1.shape), gray1) #拼接显示为gray
 cv2.waitKey(0)
 
 imageB = cv2.imread(args["imageB"])
+imageB = cv2.resize(imageB, (640, 480))
 gray2 = cv2.cvtColor(imageB, cv2.COLOR_BGR2GRAY)
 (kpsB, descsB) = descriptor.detectAndCompute(gray2, None)
 
 gray2 = cv2.drawKeypoints(imageB, kpsB, imageB)
-cv2.imshow("gray2", gray2)
+cv2.imshow(str(gray2.shape), gray2)
 cv2.waitKey(0)
 
 

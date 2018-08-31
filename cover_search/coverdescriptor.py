@@ -4,6 +4,8 @@
 # @E-mail:   ty_2016@foxmail.com
 # @FileName: coverdescriptor.py
 # @TODO: extract keypoints and local invariant descriptors from the images
+# 需要安装opencv-contrib
+# pip install opencv-contrib-python
 
 import numpy as np
 import cv2
