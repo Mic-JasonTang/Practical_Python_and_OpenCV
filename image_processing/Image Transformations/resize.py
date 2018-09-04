@@ -21,7 +21,7 @@ print("Orgin image.shape:{}".format(image.shape))
 
 # 按照指定宽度来缩放图片，设置图像新的宽度为150
 # 为了按照同等比例缩放，这里计算新宽度/原宽度的比例
-new_width = 150
+new_width = 250
 old_width = image.shape[1]
 old_height = image.shape[0]
 # 计算新的高度
@@ -36,7 +36,7 @@ print("r:{}, dim:{}".format(r, dim))
 resized = cv2.resize(image, dim, interpolation= cv2.INTER_AREA)
 print("Resized image.shape:{}".format(resized.shape))
 cv2.imshow("Resized (Width)", resized)
-
+cv2.imwrite("paopaobing.png", resized)
 
 # 按照指定高度来缩放图片
 new_height = 50

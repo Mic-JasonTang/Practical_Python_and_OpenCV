@@ -129,7 +129,7 @@ class CoverMatcher:
 			# returned value, the status variable is a list of booleans, with a
 			# value of 1 if the corresponding keypoints in ptsA and ptsB
 			# were matched, and a value of 0 if they were not.
-			(_, status) = cv2.findHomography(ptsA, ptsB, cv2.RANSAC, 4.0)
+			(_, status) = cv2.findHomography(pts  A, ptsB, cv2.RANSAC, 4.0)
 			# Computes the ratio of the number of inliers to the total number
 			# of potential matches and returns it to the caller.
 			# A high score indicates a better “match” between two images.

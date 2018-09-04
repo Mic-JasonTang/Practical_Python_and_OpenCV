@@ -348,9 +348,10 @@ def imresize(src, height):
 
 
 if __name__ == '__main__':
-    img1 = cv2.imread("nn_left.jpg")
-    img2 = cv2.imread("nn_right.jpg")
-
+    # img1 = cv2.imread("nn_left.jpg")
+    # img2 = cv2.imread("nn_right.jpg")
+    img1 = cv2.imread("covers/cover004.png")
+    img2 = cv2.imread("queries/query04.png")
     img1 = imresize(img1, 480)
     img2 = imresize(img2, 480)
 

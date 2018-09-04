@@ -40,18 +40,18 @@ mergedV = cv2.merge([zeros, zeros, v])
 cv2.imshow("Merged Value", mergedV)
 
 cv2.waitKey(0)
-
+# L* for the lightness and a* and b* for the green–red and blue–yellow color components
 lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
 cv2.imshow("L*a*b", lab)
 
-(L, a, b) = cv2.split(lab)
+# (L, a, b) = cv2.split(lab)
 
-mergedL = cv2.merge([L, zeros, zeros])
-cv2.imshow("Merged L", mergedL)
+# mergedL = cv2.merge([L, zeros, zeros])
+# cv2.imshow("Merged L", mergedL)
 
-mergeda = cv2.merge([zeros, a, zeros])
-cv2.imshow("Merged a", mergeda)
+# mergeda = cv2.merge([zeros, a, zeros])
+# cv2.imshow("Merged a", mergeda)
 
-mergedb = cv2.merge([zeros, zeros, b])
-cv2.imshow("Merged b", mergedb)
+# mergedb = cv2.merge([zeros, zeros, b])
+# cv2.imshow("Merged b", mergedb)
 cv2.waitKey(0)

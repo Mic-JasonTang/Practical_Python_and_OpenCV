@@ -118,5 +118,6 @@ ax2.imshow(hog_image, cmap=plt.cm.gray)
 ax2.set_title('Histogram of Oriented Gradients')
 
 ax3.axis('off')
-ax3.imshow(hog_image, cmap=plt.cm.gray)
+ax3.imshow(hog_image_rescaled, cmap=plt.cm.gray)
+ax3.set_title('HOG with rescale_intensity')
 plt.show()

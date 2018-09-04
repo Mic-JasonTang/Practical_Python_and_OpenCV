@@ -43,7 +43,7 @@ print(M)
 shifted = cv2.warpAffine(image, M, (image.shape[1], image.shape[0]))
 cv2.imshow("Shifted Up and Left", shifted)
 
-shifted = imutils.translate(image, 0, 100)
-cv2.imshow("Shifted Down", shifted)
+# shifted = imutils.translate(image, 0, 100)
+# cv2.imshow("Shifted Down", shifted)
 
 cv2.waitKey(0)

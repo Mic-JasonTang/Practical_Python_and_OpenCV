@@ -18,6 +18,6 @@ cv2.imshow("Original", image)
 
 # startY=500, endY:620
 # startX=540, endY:735
-cropped = image[500:620, 540:735]
+cropped = image[100:220, 140:235]
 cv2.imshow("Corner", cropped)
 cv2.waitKey(0)

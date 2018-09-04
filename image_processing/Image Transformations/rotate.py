@@ -40,6 +40,6 @@ M = cv2.getRotationMatrix2D(center, -90, 1.0)
 rotated = cv2.warpAffine(image, M, (w, h))
 cv2.imshow("Rotated by -90 Degrees", rotated)
 
-rotated = imutils.rotate(image, 180)
-cv2.imshow("Rotated by 180 Degrees", rotated)
+# rotated = imutils.rotate(image, 180)
+# cv2.imshow("Rotated by 180 Degrees", rotated)
 cv2.waitKey(0)

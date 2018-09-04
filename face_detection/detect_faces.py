@@ -21,7 +21,7 @@ image = cv2.imread(args["image"])
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 fd = FaceDetector(args["face"])
-faceRects = fd.detect(gray, scaleFactor = 1.2, minNeighbors = 5,
+faceRects = fd.detect(gray, scaleFactor = 1.1, minNeighbors = 5,
 					 minSize = (30, 30))
 print("I found {} face(s)".format(len(faceRects)))
 
